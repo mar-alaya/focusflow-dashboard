@@ -3,6 +3,7 @@ import { Hero } from "./assets/shared/hero/hero.comp";
 import { Stats } from "./assets/components/stats.comp";
 import { useState } from "react";
 import { Form } from "./assets/components/form.comp";
+import { TaskContainer } from "./assets/components/cards/taskcard.container.comp";
 
 function App() {
   const [allTasks, setAllTasks] = useState([
@@ -18,7 +19,25 @@ function App() {
   const openTasks = allTasks.filter((task) => task.status === 1);
   const closedTasks = allTasks.filter((task) => task.status === 2);
 
-  console.log(allTasks);
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const newTaskName = document.querySelector(".input-name").value;
+    const newTaskDescription =
+      document.querySelector(".input-description").value;
+    const newTaskPriority = document.querySelector(".input-priority").value;
+
+    setAllTasks((prevTasks) => [
+      ...prevTasks,
+      {
+        id: Date.now(),
+        name: newTaskName,
+        description: newTaskDescription,
+        priority: newTaskPriority,
+        status: 1,
+      },
+    ]);
+  }
 
   return (
     <>
@@ -33,8 +52,9 @@ function App() {
           closedTasks={closedTasks.length}
         />
 
-        <section className="dashboard-section flex">
-          <Form />
+        <section className="dashboard-section flex gap-5">
+          <Form handler={handleSubmit} />
+          <TaskContainer />
         </section>
       </main>
     </>

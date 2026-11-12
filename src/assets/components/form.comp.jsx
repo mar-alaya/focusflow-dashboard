@@ -1,56 +1,45 @@
 import { Button } from "../shared/buttons/button.comp";
-import { useState } from "react";
 
-export function Form() {
-  function useForm() {
-    const [newTask, setNewTask] = useState({
-      name: "",
-      description: "",
-      priority: 3,
-    });
-
-    function submitForm() {
-      setNewTask({
-        name: document.querySelector("#input-name").value,
-        description: document.querySelector("#input-description").value,
-        priority: document.querySelector("#input-priority").value,
-      });
-    }
-
-    submitForm();
-    console.log(newTask.name);
-    return [newTask, setNewTask];
-  }
-
+export function Form({ handler }) {
   return (
-    <form className="bg-base-100 m-10 p-5 rounded-md flex flex-col gap-3 justify-center shadow-2xl">
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend">Task Name</legend>
+    <form
+      className="bg-base-100 m-10 p-5 rounded-md flex flex-col gap-3 justify-center shadow-2xl"
+      onSubmit={handler}
+    >
+      <fieldset className="fieldset">
+        <legend className="fieldset-legend">Task Name</legend>
         <input
+          name="task-name"
           type="text"
-          class="input-name"
+          className="input-name"
           placeholder="e.g. Check Emails"
           required
         />
       </fieldset>
 
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend">Task Description</legend>
+      <fieldset className="fieldset">
+        <legend className="fieldset-legend">Task Description</legend>
         <textarea
+          name="task-description"
           className="input-description"
           placeholder="Give more details"
         ></textarea>
       </fieldset>
 
-      <fieldset class="fieldset">
-        <legend class="fieldset-legend">Priority</legend>
-        <select class="input-priority">
-          <option defaultValue={3}>Low</option>
-          <option value={2}>Middle</option>
-          <option value={1}>High</option>
+      <fieldset className="fieldset">
+        <legend className="fieldset-legend">Priority</legend>
+        <select
+          name="task-priority"
+          className="input-priority"
+          defaultValue="3"
+        >
+          <option value="3">Low</option>
+          <option value="2">Middle</option>
+          <option value="1">High</option>
         </select>
       </fieldset>
-      <Button Onclick={useForm} className={"btn-primary"} text="Save" />
+
+      <Button type="submit" className="btn-primary" text="Add +" />
     </form>
   );
 }
