@@ -4,3 +4,11 @@
 body {
   background: radial-gradient(circle, #8db0f7, #7fd3f3, #eaeefe);
 }
+
+.btn-primary {
+  background-color: #7155ea;
+  color: white;
+  &:hover {
+    background-color: #5e43d3;
+  }
+}
