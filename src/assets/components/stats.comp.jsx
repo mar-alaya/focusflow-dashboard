@@ -1,7 +1,7 @@
 export function Stats({ allTasks, openTasks, closedTasks }) {
   return (
     <section>
-      <div className="stats shadow bg-base-100 flex justify-center mx-10 gap-5">
+      <div className="stats shadow bg-base-100 mx-5 flex justify-center gap-5">
         <div className="stat">
           <div className="stat-figure text-secondary">
             <svg

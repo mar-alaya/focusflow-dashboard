@@ -5,10 +5,15 @@ body {
   background: radial-gradient(circle, #8db0f7, #7fd3f3, #eaeefe);
 }
 
-.btn-primary {
+.primary-btn {
   background-color: #7155ea;
   color: white;
   &:hover {
     background-color: #5e43d3;
   }
+}
+
+.closed-task {
+  background-color: grey;
+  color: #eaeefe;
 }

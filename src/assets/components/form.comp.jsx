@@ -3,7 +3,7 @@ import { Button } from "../shared/buttons/button.comp";
 export function Form({ handler }) {
   return (
     <form
-      className="bg-base-100 m-10 p-5 rounded-md flex flex-col gap-3 justify-center shadow-2xl"
+      className="m-0 w-72 shrink-0 bg-base-100 p-5 rounded-md flex flex-col gap-3 shadow-md"
       onSubmit={handler}
     >
       <fieldset className="fieldset">
@@ -11,7 +11,7 @@ export function Form({ handler }) {
         <input
           name="task-name"
           type="text"
-          className="input-name"
+          className="input-name border border-gray-300 p-2"
           placeholder="e.g. Check Emails"
           required
         />
@@ -21,7 +21,7 @@ export function Form({ handler }) {
         <legend className="fieldset-legend">Task Description</legend>
         <textarea
           name="task-description"
-          className="input-description"
+          className="input-description  border border-gray-300 p-2"
           placeholder="Give more details"
         ></textarea>
       </fieldset>
@@ -30,16 +30,16 @@ export function Form({ handler }) {
         <legend className="fieldset-legend">Priority</legend>
         <select
           name="task-priority"
-          className="input-priority"
+          className="input-priority border border-gray-300 p-2"
           defaultValue="3"
         >
-          <option value="3">Low</option>
-          <option value="2">Middle</option>
-          <option value="1">High</option>
+          <option value="Low">Low</option>
+          <option value="Middle">Middle</option>
+          <option value="High">High</option>
         </select>
       </fieldset>
 
-      <Button type="submit" className="btn-primary" text="Add +" />
+      <Button type="submit" className="primary-btn" text="Add +" />
     </form>
   );
 }
