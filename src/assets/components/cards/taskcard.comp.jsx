@@ -9,16 +9,12 @@ export function TaskCard({
   let priorityClass = "priority-low";
   let priorityLabel = "Low";
 
-  const priorityValue = String(priority).trim().toLowerCase();
+  const priorityValue = priority.trim().toLowerCase();
 
   if (priorityValue === "high" || priorityValue === "1") {
     priorityClass = "priority-high";
     priorityLabel = "High";
-  } else if (
-    priorityValue === "medium" ||
-    priorityValue === "middle" ||
-    priorityValue === "2"
-  ) {
+  } else if (priorityValue === "middle") {
     priorityClass = "priority-medium";
     priorityLabel = "Medium";
   }
