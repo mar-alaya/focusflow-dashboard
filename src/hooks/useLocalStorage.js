@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useLocalStorage(key, initialValue) {
+export function useLocalStorage(key, initialTasks) {
   function loadData() {
     try {
       const savedData = localStorage.getItem(key);
@@ -12,18 +12,18 @@ export function useLocalStorage(key, initialValue) {
       console.error("Task loading failed", error);
     }
 
-    return initialValue;
+    return initialTasks;
   }
 
-  const [value, setValue] = useState(loadData);
+  const [tasks, setTasks] = useState(loadData);
 
   useEffect(() => {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      localStorage.setItem(key, JSON.stringify(tasks));
     } catch (error) {
       console.error("Task loading failed:", error);
     }
-  }, [key, value]);
+  }, [key, tasks]);
 
-  return [value, setValue];
+  return [tasks, setTasks];
 }

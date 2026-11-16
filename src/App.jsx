@@ -11,19 +11,25 @@ import { useLocalStorage } from "./hooks/useLocalStorage";
 function App() {
   const [allTasks, setAllTasks] = useLocalStorage("focusflow-tasks", []);
   const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   const openTasks = allTasks.filter((task) => task.isClosed === false);
   const closedTasks = allTasks.filter((task) => task.isClosed === true);
 
-  console.log(openTasks);
-
   function handleSubmit(event) {
     event.preventDefault();
 
-    const newTaskName = document.querySelector(".input-name").value;
-    const newTaskDescription =
-      document.querySelector(".input-description").value;
-    const newTaskPriority = document.querySelector(".input-priority").value;
+    const form = event.currentTarget;
+
+    const newTaskName = form.querySelector(".input-name").value.trim();
+    const newTaskDescription = form
+      .querySelector(".input-description")
+      .value.trim();
+    const newTaskPriority = form.querySelector(".input-priority").value;
+
+    if (newTaskName === "") {
+      return;
+    }
 
     setAllTasks((prevTasks) => [
       ...prevTasks,
@@ -35,22 +41,16 @@ function App() {
         isClosed: false,
       },
     ]);
+
+    form.reset();
   }
 
   function handleDeleteTask(task) {
-    const newTaskList = allTasks.filter(
-      (currentTask) => currentTask.id !== task.id,
-    );
+    const newTaskList = allTasks.filter((currentTask) => {
+      return currentTask.id !== task.id;
+    });
 
     setAllTasks(newTaskList);
-  }
-
-  let visibleTasks = allTasks;
-
-  if (filter === "open") {
-    visibleTasks = allTasks.filter((task) => task.isClosed === false);
-  } else if (filter === "closed") {
-    visibleTasks = allTasks.filter((task) => task.isClosed === true);
   }
 
   function handleCloseTask(task) {
@@ -65,9 +65,9 @@ function App() {
         }
 
         return updatedTask;
-      } else {
-        return currentTask;
       }
+
+      return currentTask;
     });
 
     setAllTasks(updatedTasks);
@@ -85,9 +85,28 @@ function App() {
     setFilter("closed");
   }
 
-  function handleSearch(input) {
-    allTasks.filter((task) => input.includes());
+  function handleSearch(event) {
+    setSearch(event.target.value);
   }
+
+  let visibleTasks = allTasks;
+
+  if (filter === "open") {
+    visibleTasks = visibleTasks.filter((task) => {
+      return task.isClosed === false;
+    });
+  } else if (filter === "closed") {
+    visibleTasks = visibleTasks.filter((task) => {
+      return task.isClosed === true;
+    });
+  }
+
+  visibleTasks = visibleTasks.filter((task) => {
+    const taskName = task.name.toLowerCase();
+    const searchText = search.trim().toLowerCase();
+
+    return taskName.includes(searchText);
+  });
 
   return (
     <>
@@ -95,6 +114,7 @@ function App() {
         <NavBar />
         <Hero />
       </header>
+
       <main>
         <Stats
           allTasks={allTasks.length}
@@ -102,9 +122,11 @@ function App() {
           closedTasks={closedTasks.length}
         />
 
-        <section className="flex gap-5 m-5">
-          <Seachbar handler={handleSearch} />
+        <section className="flex flex-wrap gap-5 m-5">
+          <Seachbar handler={handleSearch} search={search} />
+
           <Filters
+            filter={filter}
             handlerOpen={handleViewOpen}
             handlerAll={handleViewAll}
             handlerClosed={handleViewClosed}
@@ -117,6 +139,7 @@ function App() {
             closeHandler={handleCloseTask}
             deleteHandler={handleDeleteTask}
           />
+
           <Form handler={handleSubmit} />
         </section>
       </main>

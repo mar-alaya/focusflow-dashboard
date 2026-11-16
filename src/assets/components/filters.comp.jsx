@@ -1,13 +1,38 @@
-export function Filters(handlerAll, handlerOpen, handlerClosed) {
+export function Filters({ handlerAll, handlerOpen, handlerClosed, filter }) {
+  function buttonClass(value) {
+    if (filter === value) {
+      return "btn btn-primary";
+    }
+
+    return "btn btn-outline btn-primary";
+  }
+
   return (
-    <div className="flex gap-5 items-center">
-      <button onClick={handlerAll} class="btn btn-outline btn-primary">
+    <div className="flex flex-wrap gap-3 items-center">
+      <button
+        type="button"
+        onClick={handlerAll}
+        className={buttonClass("all")}
+        aria-pressed={filter === "all"}
+      >
         All Tasks
       </button>
-      <button onClick={handlerOpen} class="btn btn-outline btn-primary">
+
+      <button
+        type="button"
+        onClick={handlerOpen}
+        className={buttonClass("open")}
+        aria-pressed={filter === "open"}
+      >
         Open
       </button>
-      <button onClick={handlerClosed} class="btn btn-outline btn-primary">
+
+      <button
+        type="button"
+        onClick={handlerClosed}
+        className={buttonClass("closed")}
+        aria-pressed={filter === "closed"}
+      >
         Closed
       </button>
     </div>

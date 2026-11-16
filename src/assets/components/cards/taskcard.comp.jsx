@@ -2,17 +2,42 @@ export function TaskCard({
   name,
   description,
   priority,
+  isClosed,
   closeTaskHandler,
   removeTaskHandler,
 }) {
+  let priorityClass = "priority-low";
+  let priorityLabel = "Low";
+
+  const priorityValue = String(priority).trim().toLowerCase();
+
+  if (priorityValue === "high" || priorityValue === "1") {
+    priorityClass = "priority-high";
+    priorityLabel = "High";
+  } else if (
+    priorityValue === "medium" ||
+    priorityValue === "middle" ||
+    priorityValue === "2"
+  ) {
+    priorityClass = "priority-medium";
+    priorityLabel = "Medium";
+  }
   return (
     <>
       <div
         id="taskcard"
-        className="bg-base-100 w-full shadow-md flex justify-between p-5 rounded-md"
+        className={`w-full shadow-md flex justify-between p-5 rounded-md ${
+          isClosed ? "closed-task" : "bg-base-100"
+        }`}
       >
         <div className="flex items-center gap-5">
-          <input type="checkbox" class="checkbox" onChange={closeTaskHandler} />
+          <input
+            type="checkbox"
+            className="checkbox"
+            checked={isClosed}
+            onChange={closeTaskHandler}
+            aria-label={`Complete task: ${name}`}
+          />
           <div>
             <h3 className="text-base font-semibold text-gray-900">{name}</h3>
             <p className="mt-1 text-sm text-gray-500">{description}</p>
@@ -20,7 +45,9 @@ export function TaskCard({
         </div>
 
         <div className="flex items-center gap-10">
-          <div class="badge badge-primary">{priority}</div>
+          <span className={`badge border-0 ${priorityClass}`}>
+            {priorityLabel}
+          </span>
           <button onClick={removeTaskHandler}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
